@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { ITokenInfo, IUser } from '../interfaces/user.interface';
@@ -22,20 +22,14 @@ export class UsuariosService {
     return this.http.post(`${this.urlAPI}/Usuario/hash/nuevousuario`, usuario, { headers: headers });
   }
 
-  // updateEquipo(usuario: IUser): Observable<any> {
-  //   const headers = this.getTokenHeader();
-  //   return this.http.put(`${this.urlAPI}/Usuario/${usuario.id}`, usuario, { headers: headers });
-  // }
-
-  // deleteEquipo(id: number): Observable<any> {
-  //   const headers = this.getTokenHeader();
-  //   return this.http.delete(`${this.urlAPI}/Usuario/${id}`, { headers: headers });
-  // }
-
-//   deleteEquipoJugadores(id: number): Observable<any> {
-//     const headers = this.getTokenHeader();
-//     return this.http.delete(`${this.urlAPI}/Usuarios/eliminarequipoconJugadores/${id}`, { headers: headers });
-//   }
+  updateUsuarios(usuario: IUser): Observable<any> {
+    const headers = this.getTokenHeader();
+    return this.http.put(`${this.urlAPI}/Usuario/${usuario.id}`, usuario, { headers: headers });
+  }
+ deleteUsuarios(usuario: IUser): Observable<any> {
+    const headers = this.getTokenHeader();
+    return this.http.delete(`${this.urlAPI}/Usuario/${usuario.id}`, { headers: headers });
+  }
 
   getTokenHeader(): HttpHeaders {
     const user: ITokenInfo = JSON.parse(localStorage.getItem('usuario')!);

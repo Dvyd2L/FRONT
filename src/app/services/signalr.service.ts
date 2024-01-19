@@ -25,6 +25,7 @@ export class SignalRService {
   //   rol:"",
   // };
 
+
   
   urlSignalR = environment.urlAPI;
   hubConnection!: signalR.HubConnection;
@@ -68,6 +69,7 @@ export class SignalRService {
     
     if (userData) {
       const message: IMessage = {
+        id: userData.id,
         user: userData.nombre || '',
         text:'',
         // room: 'Conjunta', 
@@ -115,6 +117,7 @@ export class SignalRService {
   sendMessage(message: IMessage) {
     this.hubConnection.send('SendMessage', message);
     // this.messageSubscription.next(message); 
+    console.log('sendMessage del signalrservice', message)
   }
 
 
@@ -126,8 +129,6 @@ export class SignalRService {
   //     console.log('Usuarios conectados:', users);
   //   });
   // }
-
-
 
 
 }

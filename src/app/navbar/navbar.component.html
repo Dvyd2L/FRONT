@@ -1,0 +1,20 @@
+<nav class="navbar navbar-light bg-light" style="padding: 0 1rem; box-shadow: 0 0 5px -1px gray;">
+    <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
+      <img src="https://www.pinclipart.com/picdir/big/53-536363_secret-santa-will-be-back-for-2019-however.png"
+        width="50" height="50" class="d-inline-block align-top" alt="">
+    </a>
+  
+    <div ngbDropdown class="d-inline-block" *ngIf="userEmail; else LoginButton">
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{userEmail}}</button>
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{userRol}}</button>
+
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">        
+       <button class="btn btn-primary" routerLink="/login" (click)="logout()">Salir</button>
+      </div>
+    </div>
+  
+    <ng-template #LoginButton>
+      <button class="btn btn-primary" routerLink="/login"> Ingresar</button>
+    </ng-template>
+  </nav>
+  

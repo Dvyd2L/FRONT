@@ -18,14 +18,16 @@
       <ng-container *ngSwitchDefault>{{ salaSeleccionada }}</ng-container>
     </ng-container>
   </p>
-  
   <p *ngIf="!connected" class="text-danger text-center">Desconectado</p>
+
+  <img *ngIf="userData.avatar" [src]="userData.avatar" alt="Avatar del usuario" style="width: 100px; height: 100px; border-radius: 50%;">
+
   <hr />
   <div class="row mb-3">
       <div class="col">
           <label class="col-2"></label>
 
-            <select class="col-4 form-control" id="sala" [(ngModel)]="salaSeleccionada">
+            <select class="col-4 form-control text-center" id="sala" [(ngModel)]="salaSeleccionada">
               <option value="admin">Sala conjunta</option>
               <option *ngIf="'Grupo 1'== userData.rol || userData.rol == 'admin'" value="Grupo 1">Sala 1</option>
               <option *ngIf="'Grupo 2'== userData.rol || userData.rol == 'admin'" value="Grupo 2">Sala 2</option>
@@ -84,6 +86,37 @@
       <div class="col">
       <!-- <label class="col-2">Avatar</label>
           <input class="col-2 form-control" type="text" id="txtAvatar" /> -->
+
+
+          <div>
+            <!-- <label for="avatarInput">Selecciona un avatar: </label> -->
+
+            <div class="form-group text-center">
+              <select class="form-control text-center" name="avatarSelect" id="avatarSelect" [(ngModel)]="avatarUrl" (ngModelChange)="guardarAvatar()">
+                <option disabled  value="">Seleccione un avatar</option>
+                <option value="https://th.bing.com/th/id/OIP.GDrpKBRZ5rmABPxEhhjRiwHaHa?rs=1&pid=ImgDetMain">
+                  Avatar 1
+                </option>
+                <option value="https://cdn.icon-icons.com/icons2/1576/PNG/512/3561839-emoji-emoticon-silly_107878.png">
+                  Avatar 2
+                </option>
+                <option value="https://i.pinimg.com/originals/25/12/d9/2512d939bb5e79fece891f1846c03b04.jpg">
+                  Avatar 3
+                </option>
+                <option value="https://i.pinimg.com/736x/90/05/80/900580e1df8f3a9858736f21dde029fd.jpg">
+                  Avatar 4
+                </option>
+                <option value="https://cdn.discordapp.com/attachments/1115721246106198098/1197300634047754260/64df0896-bafd-4df8-9128-5c1c288fc602.jpg?ex=65bac41b&is=65a84f1b&hm=a3b4f357f7d9cbd254d8a1f51726b75cd3be7e7c34de721d7b54993364903e1a&">
+                  Avatar 5
+                </option>
+              </select>
+            </div>
+                       
+            <!-- <button (click)="guardarAvatar()">Guardar Avatar</button> -->
+          </div>
+
+          <p></p>
+
           <app-message-input (sendMessageEvent)="sendMessage($event)"></app-message-input>
       </div>
   </div>
@@ -111,9 +144,13 @@
       <div class="col">
           <!-- <ul id="lstMensajes" class="list-group">
           </ul> -->
+          <!-- <p *ngIf="connected" class="text-success text-center"> -->
 
-          <ul class="list-group mt-3">
+          <ul *ngIf="connected" class="list-group mt-3">
             <li class="list-group-item" *ngFor="let mensaje of mensajes">
+              
+              <img *ngIf="userData.avatar" [src]="userData.avatar" alt="Avatar del usuario" style="width: 45px; height: 45px;  border-radius: 50%;">
+
               {{ mensaje.usuario }} {{ mensaje.mensaje }} 
             </li>
           </ul>
@@ -122,8 +159,18 @@
 
       <div class="col">
           <h2>Todos</h2>
-          <ul id="usuariosTotales" class="list-group">
-          </ul>
+          <!-- <ul id="usuariosTotales" class="list-group">
+          </ul> -->
+
+<ul>
+  <li *ngFor="let usuario of usuarios">
+    <ng-container >
+      {{ usuario.nombre }} - {{ usuario.email }}
+    </ng-container>
+  </li>
+</ul>
+
+
       </div>
       <div class="col">
           <h2>Sala</h2>

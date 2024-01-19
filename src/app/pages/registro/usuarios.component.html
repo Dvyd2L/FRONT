@@ -28,7 +28,16 @@
             </div>
             <div class="col">
               <label for="rol" class="form-label">Rol</label>
-              <input type="text" class="form-control text-center" id="rol" name="rol" [(ngModel)]="usuario.rol">
+              <!-- <input type="text" class="form-control text-center" id="rol" name="rol" [(ngModel)]="usuario.rol"> -->
+              <select class="col-4 form-control" type="text"  id="rol" name="rol" [(ngModel)]="usuario.rol">
+                <option value="Grupo 1">Grupo 1</option>
+                <option value="Grupo 2">Grupo 2</option>
+                <option value="Grupo 3">Grupo 3</option>
+                <option value="Grupo 4">Grupo 4</option>
+                <option value="Grupo 5">Grupo 5</option>
+                <option value="Grupo 6">Grupo 6</option>
+                <option value="admin">admin</option>
+              </select>
               </div>
         </div>
 
@@ -54,13 +63,20 @@
                 <td>{{ usuario.id}}</td>
                 <td><input type="text" class="form-control text-center" [(ngModel)]="usuario.nombre" /></td>
                 <td><input type="text" class="form-control text-center" [(ngModel)]="usuario.email" /></td>
-                <td><input type="text" class="form-control text-center" [(ngModel)]="usuario.rol" /></td>
-
+                <!-- <td><input type="text" class="form-control text-center" [(ngModel)]="usuario.rol" /></td> -->
+                
+                  <td> <select class="col-4 form-control" type="text"  id="rol" name="rol" [(ngModel)]="usuario.rol">
+                  <option value="Grupo 1">Grupo 1</option>
+                  <option value="Grupo 2">Grupo 2</option>
+                  <option value="Grupo 3">Grupo 3</option>
+                  <option value="Grupo 4">Grupo 4</option>
+                  <option value="Grupo 5">Grupo 5</option>
+                  <option value="Grupo 6">Grupo 6</option>
+                  <option value="admin">admin</option>
+                </select> </td>
                 <td>
-                  <!-- <button class="btn btn-warning mr-2" (click)="updateEquipo(equipo)">Actualizar</button>
-                  <button class="btn btn-danger mr-2" (click)="deleteEquipo(equipo)">Eliminar</button>
-                  <button class="btn btn-danger mr-2" (click)="deleteEquipoJugadores(equipo)">Eliminar equipo y
-                    jugadores</button> -->
+                  <button class="btn btn-warning mr-2" (click)="updateUsuarios(usuario)">Actualizar</button>
+                  <button class="btn btn-danger mr-2" (click)="deleteUsuarios(usuario)">Eliminar</button>   
                 </td>
               </tr>
             </tbody>

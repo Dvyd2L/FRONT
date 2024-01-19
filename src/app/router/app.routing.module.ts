@@ -6,6 +6,7 @@ import { NotFoundComponent } from '../pages/not-found/not-found.component';
 import { ChatComponent } from '../pages/PruebaChat/chat.component';
 import { UsuariosComponent } from '../pages/registro/usuarios.component';
 import { PrincipalComponent } from '../pages/principal/principal.component';
+import { HistorialComponent } from '../pages/historial/historial.component';
 
 // Esta línea conecta el sistema de rutas con el guard (algo así como el vigilante).
 // isLoggedin será un método del AuthGuardService que se encargará de validar si el usuario está loggeado.
@@ -37,7 +38,8 @@ const appRoutes: Routes = [
    
   // {path: 'chat', component: ChatComponent},
   { path: 'inicio', component: PrincipalComponent},
-  // { path: 'registro', component: UsuariosComponent},
+
+  { path: 'historial', component: HistorialComponent},
   { path: '**', component: NotFoundComponent },
 
 ];

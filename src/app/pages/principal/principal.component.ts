@@ -51,8 +51,6 @@ export class PrincipalComponent {
   }
 
 
-
-
   
   registrar() {
     this.router.navigateByUrl('registro');
@@ -64,5 +62,9 @@ export class PrincipalComponent {
 
   registrar2(): void {
     this.router.navigate(['/registro']);
+  }
+
+  historial(): void {
+    this.router.navigate(['/historial']);
   }
 }

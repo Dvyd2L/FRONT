@@ -1,0 +1,57 @@
+<!-- <h1>Historial</h1>
+
+<h5>Seleccione la sala</h5>
+<select [(ngModel)]="salaSeleccionada" (change)="onChangeRoom()">
+  <option *ngFor="let sala of salas" [value]="sala">{{ sala }}</option>
+</select>
+
+<button (click)="getHistorialChat()">Obtener Historial</button> 
+
+<div class="col-2"> <button type="button" class="btn btn-info text-right" (click)="chat()">Chat</button></div>
+
+<div *ngFor="let mensaje of historial">
+  <ul class="list-group mt-3">
+    <li class="list-group-item">
+      {{ mensaje.nombre }}: {{ mensaje.texto }}: {{mensaje.rol}}: {{mensaje.fechaMensaje}}:
+    </li>
+  </ul>
+</div> -->
+
+   
+
+
+    <!-- <h1>Historial</h1>
+
+    <h5>Seleccione la sala</h5>
+    <p-dropdown [(ngModel)]="salaSeleccionada" [options]="salas" placeholder="Seleccione la sala"></p-dropdown>
+    
+    <button pButton type="button" label="Obtener Historial" (click)="getHistorialChat()"></button>
+    
+    <div class="p-col-2">
+      <button pButton type="button" icon="pi pi-chat" class="p-button-info p-text-right" (click)="chat()">Chat</button>
+    </div>
+    
+    <div *ngFor="let mensaje of historial">
+        <p-card *ngFor="let mensaje of historial" [header]="mensaje.nombre">
+            {{ mensaje.texto }} - {{ mensaje.fechaMensaje | date: 'short' }}
+          </p-card>
+          
+    </div> -->
+    
+
+   <h1>Historial</h1>
+
+    <h5>Seleccione la sala</h5>
+    <div >
+    <p-dropdown [(ngModel)]="salaSeleccionada" [options]="salas" placeholder="Seleccione la sala" (onChange)="getHistorialChat()"></p-dropdown>
+    </div>
+    <div class="p-col-2">
+      <button pButton type="button" icon="pi pi-chat" class="p-button-info p-text-right" (click)="chat()">Chat</button>
+    </div>
+    
+    <div *ngFor="let mensaje of historial">
+      <p-card [header]="mensaje.nombre">
+        {{mensaje.id}}- {{ mensaje.texto }} - {{ mensaje.fechaMensaje | date: 'short' }} -{{mensaje.rol}} 
+      </p-card>
+    </div>
+    

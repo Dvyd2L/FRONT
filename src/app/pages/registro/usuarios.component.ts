@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user.interface';
 import { LoginService } from 'src/app/services/login.service';
+import { UserChatService } from 'src/app/services/UserChat.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
@@ -14,12 +14,14 @@ export class UsuariosComponent implements OnInit {
     nombre: '',
     email: '',
     password: '',
-    rol: ''
+    rol: '',
+    id:0
   };
 
   usuarios: IUser[] = [];
 
-  constructor(private usuariosService: UsuariosService, private loginService: LoginService, private router: Router) {}
+  constructor(private usuariosService: UsuariosService, private loginService: LoginService, private router: Router,
+    private userChatService: UserChatService,) {}
 
 
   ngOnInit(): void {
@@ -30,6 +32,12 @@ export class UsuariosComponent implements OnInit {
     this.usuariosService.getUsuarios().subscribe({
       next: (data) => {
         this.usuarios = data;
+        
+             // Agrega un console.log para verificar que la lista de usuarios se obtuvo correctamente
+      console.log('Usuarios obtenidos en UsuariosComponent:', data);
+              // Actualiza la lista de usuarios conectados en el servicio
+      this.userChatService.actualizarUsuariosConectados(data);
+      
       },
       error: (err) => {
         alert('Error en el acceso a datos');
@@ -54,6 +62,48 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
+
+
+  updateUsuarios(usuario: IUser): void {
+    const confirmacion = confirm('¿Estás seguro de que deseas actualizar este usuario?');
+    if (confirmacion) {
+      this.usuariosService.updateUsuarios(usuario).subscribe({
+        next: () => {
+          alert('Usuario actualizado correctamente');
+        },
+        error: () => {
+          alert('Error al actualizar el usuario');
+        }
+      });
+    }
+  }
+  
+
+  deleteUsuarios(usuario: IUser): void {
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar este usuario?');
+      if (confirmacion) {
+      this.usuariosService.deleteUsuarios(usuario).subscribe({
+        next: (response) => {
+          console.log('Usuario eliminado correctamente', response);
+          alert('Usuario eliminado correctamente');  
+        },
+        error: (error) => {
+          console.error('Error al eliminar el usuario', error);
+          alert('Error al eliminar el usuario');
+        },
+        complete: () => {
+          this.getUsuarios();
+        }
+      });
+    }
+  }
+
+
+
+  
+  
+  
+  
 
   logout() {
     this.loginService.logout();
