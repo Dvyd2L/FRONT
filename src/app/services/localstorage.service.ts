@@ -1,12 +1,8 @@
-import { Injectable } from "@angular/core";
 
-@Injectable({
-    providedIn: 'root'
-  })
 
 export class StorageHelper {
 
-    public static setItem(key: string, value: any, useSessionStorage: boolean = false): void {
+    public static setItem<T>(key: string, value: T, useSessionStorage: boolean = false): void {
       const storage = useSessionStorage ? sessionStorage : localStorage;
   
       storage.setItem(key, JSON.stringify(value));
@@ -36,10 +32,6 @@ export class StorageHelper {
       storage.setItem('avatar', avatar);
     }
   
-    // public static getAvatar(useSessionStorage: boolean = false): string | null {
-    //   const storage = useSessionStorage ? sessionStorage : localStorage;
-    //   return storage.getItem('avatar');
-    // }
     public static getAvatar(useSessionStorage: boolean = false): string {
       const storage = useSessionStorage ? sessionStorage : localStorage;
       const storedAvatar = storage.getItem('avatar');
@@ -50,19 +42,6 @@ export class StorageHelper {
       const storage = useSessionStorage ? sessionStorage : localStorage;
       storage.removeItem('avatar');
     }
-    
-
-    // public static guardarMensaje(mensaje: { usuario: string, mensaje: string }[], useSessionStorage: boolean = false): void {
-    //   const storage = useSessionStorage ? sessionStorage : localStorage;
-    //   const mensajesGuardados = this.getItem<{ usuario: string, mensaje: string }[]>('chatMessages', useSessionStorage) || [];
-    //   mensajesGuardados.push(...mensaje);
-    //   storage.setItem('chatMessages', JSON.stringify(mensajesGuardados));
-    // }
-  
-    // public static obtenerMensajes(useSessionStorage: boolean = false): { usuario: string, mensaje: string }[] {
-    //   const storage = useSessionStorage ? sessionStorage : localStorage;
-    //   return this.getItem<{ usuario: string, mensaje: string }[]>('chatMessages', useSessionStorage) || [];
-    // }
 
     public static guardarMensaje(mensaje: { usuario: string, mensaje: string }[], useSessionStorage: boolean = false): void {
       const storage = useSessionStorage ? sessionStorage : localStorage;

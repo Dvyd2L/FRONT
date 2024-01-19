@@ -4,11 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { AppRoutingModule } from './app.routing/app.routing.module';
+import { AppRoutingModule } from './router/app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosComponent } from './pages/registro/usuarios.component';
-import { ChatComponent } from './pages/PruebaChat/chat.component';
+import { ChatComponent } from './pages/chat/chat.component';
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { SignalRService } from './services/signalr.service';
 import { MessageInputComponent } from './pages/message-input/message-input.component';
@@ -36,7 +36,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     NavbarComponent
   ],
   imports: [
-    BrowserModule,AppRoutingModule, HttpClientModule, FormsModule,  ReactiveFormsModule,BrowserAnimationsModule, DropdownModule, ButtonModule, ListboxModule, CardModule,
+    BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, DropdownModule, ButtonModule, ListboxModule, CardModule,
   ],
   providers: [SignalRService, UserChatService],
   bootstrap: [AppComponent]

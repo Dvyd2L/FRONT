@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from '../guards/auth-guard.service';
 import { LoginComponent } from '../pages/login/login.component';
 import { NotFoundComponent } from '../pages/not-found/not-found.component';
-import { ChatComponent } from '../pages/PruebaChat/chat.component';
+import { ChatComponent } from '../pages/chat/chat.component';
 import { UsuariosComponent } from '../pages/registro/usuarios.component';
 import { PrincipalComponent } from '../pages/principal/principal.component';
 import { HistorialComponent } from '../pages/historial/historial.component';
@@ -21,16 +21,11 @@ const appRoutes: Routes = [
     canActivate: [() => canActivate()] // Aquí se le pasa el método que valida si el usuario está loggeado.
     // canActivate "abrritá la puerta" dependiendo de lo que el canActivate del AuthGuardService devuelva.
   },
-  // {
-  //     path: 'registro',
-  //     component: UsuariosComponent,
-  //     canActivate: [() => canActivate()] // Aquí se le pasa el método que valida si el usuario está loggeado.
-  //     // canActivate "abrritá la puerta" dependiendo de lo que el canActivate del AuthGuardService devuelva.
-  //   },
+
     {
     path: 'registro',
     component: UsuariosComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [() => canActivate()],
     data: {
       expectedRole: 'admin' // Puedes configurar el rol esperado en la propiedad data
     }
