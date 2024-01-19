@@ -1,0 +1,135 @@
+
+
+<div class="container mt-4">
+  <h1 class="text-center">SignalR Chat</h1>
+  <hr />
+  <!-- <p *ngIf="connected" class="text-success text-center">Conectado como: {{ userData.nombre }} en la sala del {{ salaSeleccionada }}</p> -->
+
+  <p *ngIf="connected" class="text-success text-center">
+    Conectado como: {{ userData.nombre }} en la 
+    <ng-container [ngSwitch]="salaSeleccionada">
+      <ng-container *ngSwitchCase="'admin'">Sala conjunta</ng-container>
+      <ng-container *ngSwitchCase="'Grupo 1'">Sala 1</ng-container>
+      <ng-container *ngSwitchCase="'Grupo 2'">Sala 2</ng-container>
+      <ng-container *ngSwitchCase="'Grupo 3'">Sala 3</ng-container>
+      <ng-container *ngSwitchCase="'Grupo 4'">Sala 4</ng-container>
+      <ng-container *ngSwitchCase="'Grupo 5'">Sala 5</ng-container>
+      <ng-container *ngSwitchCase="'Grupo 6'">Sala 6</ng-container>
+      <ng-container *ngSwitchDefault>{{ salaSeleccionada }}</ng-container>
+    </ng-container>
+  </p>
+  
+  <p *ngIf="!connected" class="text-danger text-center">Desconectado</p>
+  <hr />
+  <div class="row mb-3">
+      <div class="col">
+          <label class="col-2"></label>
+
+            <select class="col-4 form-control" id="sala" [(ngModel)]="salaSeleccionada">
+              <option value="admin">Sala conjunta</option>
+              <option *ngIf="'Grupo 1'== userData.rol || userData.rol == 'admin'" value="Grupo 1">Sala 1</option>
+              <option *ngIf="'Grupo 2'== userData.rol || userData.rol == 'admin'" value="Grupo 2">Sala 2</option>
+              <option *ngIf="'Grupo 3'== userData.rol || userData.rol == 'admin'" value="Grupo 3">Sala 3</option>
+              <option *ngIf="'Grupo 4'== userData.rol || userData.rol == 'admin'" value="Grupo 4">Sala 4</option>
+              <option *ngIf="'Grupo 5'== userData.rol || userData.rol == 'admin'" value="Grupo 5">Sala 5</option>
+              <option *ngIf="'Grupo 6'== userData.rol || userData.rol == 'admin'" value="Grupo 6">Sala 6</option>
+
+            </select>
+
+<!-- botones -->
+<!-- <div class="radio-input">
+  <div class="glass">
+    <div class="glass-inner">
+    </div>
+  </div>
+  <div class="selector">
+
+    <div class="choice">
+      <div>
+        <input type="radio" id="salaConjunta" name="number-selector" value="admin" [(ngModel)]="userData.rol" class="choice-circle">
+        <div class="ball"></div>
+      </div>
+      <label class="choice-name" for="salaConjunta">Sala conjunta</label>
+    </div>
+
+    <div class="choice">
+      <div>
+        <input type="radio" id="sala1" name="number-selector" value="Grupo 1" [(ngModel)]="userData.rol" class="choice-circle">
+        <div class="ball"></div>
+      </div>
+      <label class="choice-name" for="sala1">Sala 1</label>
+    </div>
+    <div class="choice">
+      <div>
+        <input type="radio" id="sala2" name="number-selector" value="Grupo 2" [(ngModel)]="userData.rol" class="choice-circle">
+        <div class="ball"></div>
+      </div>
+      <label class="choice-name" for="sala2">Sala 2</label>
+    </div>
+
+</div> -->
+<p></p>
+<!-- botones hasta aqui -->
+      <div class="col">
+        <!-- <a href="http://localhost:4200/chat" target="_blank"> -->
+        <button type="button" class="btn btn-primary" (click)="moverSala('admin')">Ir a Sala Conjunta</button>
+      <!-- </a> -->
+        <button type="button" class="btn btn-primary" (click)="moverSala2()">Volver a tu sala</button>
+
+          <button type="button" class="btn btn-info ml-2" (click)="logout()">Cerrar sesión</button>
+      </div>
+  </div>
+<p></p>
+  <div class="row mb-3">
+      <div class="col">
+      <!-- <label class="col-2">Avatar</label>
+          <input class="col-2 form-control" type="text" id="txtAvatar" /> -->
+          <app-message-input (sendMessageEvent)="sendMessage($event)"></app-message-input>
+      </div>
+  </div>
+
+  <!-- <div class="row mb-3">
+      <div class="col">
+          <label class="col-2">Mensaje</label>
+         <textarea class="form-control" [(ngModel)]="mensajeNuevo" placeholder="Escribe tu mensaje"></textarea>
+
+      </div>
+      <div class="col">
+          <button class="btn btn-success" (click)="sendMessage()">Enviar mensaje</button>
+      </div>
+  </div> -->
+
+
+  <!-- <div class="row">
+      <div class="col-12">
+          <hr />
+      </div>
+  </div>  -->
+
+
+  <div class="row">
+      <div class="col">
+          <!-- <ul id="lstMensajes" class="list-group">
+          </ul> -->
+
+          <ul class="list-group mt-3">
+            <li class="list-group-item" *ngFor="let mensaje of mensajes">
+              {{ mensaje.usuario }} {{ mensaje.mensaje }} 
+            </li>
+          </ul>
+          
+      </div>
+
+      <div class="col">
+          <h2>Todos</h2>
+          <ul id="usuariosTotales" class="list-group">
+          </ul>
+      </div>
+      <div class="col">
+          <h2>Sala</h2>
+          <ul id="usuariosEnSala" class="list-group">
+          </ul>
+      </div>
+
+
+</div>

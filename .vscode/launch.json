@@ -4,17 +4,32 @@
   "configurations": [
     {
       "name": "ng serve",
-      "type": "chrome",
+      "type": "msedge",
       "request": "launch",
       "preLaunchTask": "npm: start",
       "url": "http://localhost:4200/"
     },
     {
       "name": "ng test",
-      "type": "chrome",
+      "type": "msedge",
       "request": "launch",
       "preLaunchTask": "npm: test",
       "url": "http://localhost:9876/debug.html"
-    }
+    },
+
+    // {
+    //   "name": "ng serve",
+    //   "type": "chrome",
+    //   "request": "launch",
+    //   "preLaunchTask": "npm: ng serve -o",
+    //   "url": "http://localhost:4200/"
+    // },
+    // {
+    //   "command": "npm run dev",
+    //   "name": "Inicia servidor Node",
+    //   "request": "launch",
+    //   "type": "node-terminal",
+    //   "env": { "browser": "Chrome" }
+    // }
   ]
 }

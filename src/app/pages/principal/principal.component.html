@@ -1,0 +1,65 @@
+
+
+
+<header>
+  <h1>Proyecto: Registro, Login y Chat</h1>
+</header>
+
+<nav>
+  <a [routerLink]="['/login']"  (click)="login()">LOGIN</a>
+            <!-- <a [routerLink]="['/registro']" (click)="registrar2()">REGISTRO</a> -->
+            <!-- <a [routerLink]="['/registro']" *ngIf="'admin'== userData.rol" value="admin" (click)="registrar2()">REGISTRO</a> -->
+            <a [routerLink]="['/registro']" (click)="registrar2()">REGISTRO</a>
+
+
+</nav>
+
+
+<!-- <header>
+    <h1>Proyecto: Registro, Login y Chat</h1>
+    <nav>
+        <ul>
+
+            <li><a [routerLink]="['/login']"  (click)="login()">login</a></li>
+            <li><a [routerLink]="['/registro']" (click)="registrar2()">Registrarse</a></li>
+
+            <li [(ngModel)]="userData"><a [routerLink]="['/registro']" *ngIf="'admin'== userData.rol" value="admin" (click)="registrar2()">Registrarse</a></li>
+        </ul>
+    </nav>
+</header> -->
+
+
+<div class="container">
+    <main>
+    <section id="descripcion">
+        <h2>Descripción del Proyecto</h2>
+        <p>Este proyecto tiene como objetivo ofrecer un sistema de registro y login para los usuarios. Además, cuenta con un sistema de chat dividido en grupos de trabajo. Los usuarios podrán enviar mensajes que se guardarán diariamente y se podrán consultar según el día deseado a través de un calendario. Estos mensajes pueden contener códigos e incluso archivos adjuntos.</p>
+    </section>
+
+  
+      <!-- <section id="registro">
+        <h2>Registrarse</h2>
+        <button (click)="registrar()">Ir al Registro</button>
+
+      </section> -->
+  
+      <!-- <section id="login">
+        <h2>Iniciar Sesión</h2>
+        <button (click)="navigateTo('#login')">Ir al Login</button>
+      </section> -->
+
+
+      <section>
+      <router-outlet></router-outlet>
+      <!-- <app-login></app-login> -->
+
+    </section>
+
+
+    </main>
+  
+    <footer>
+      <p>© 2023 Proyecto grupo 4</p>
+    </footer>
+  </div>
+  

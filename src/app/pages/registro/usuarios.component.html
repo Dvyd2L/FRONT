@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row mt-3">
+      <div class="col-8">
+        <!-- <h1>Registro de usuarios</h1> -->
+      </div>
+      <div class="col-2"> <button type="button" class="btn btn-info text-right" (click)="logout()">Cerrar sesión</button></div>
+      <div class="col-2"> <button type="button" class="btn btn-info text-right" (click)="chat()">Chat</button></div>
+    </div>
+    
+
+    <div class="row">
+      <div class="col">
+        <h2>Agregar nuevo usuario</h2>
+      </div>
+      <form (submit)="addUsuarios()">
+        <div class="row mb-3">
+            <div class="col">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control text-center" id="nombre" name="nombre" [(ngModel)]="usuario.nombre">
+          </div>
+          <div class="col">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control text-center" id="email" name="email" [(ngModel)]="usuario.email">
+          </div>
+            <div class="col">
+            <label for="password" class="form-label">Password</label>
+            <input type="text" class="form-control text-center" id="password" name="password" [(ngModel)]="usuario.password">
+            </div>
+            <div class="col">
+              <label for="rol" class="form-label">Rol</label>
+              <input type="text" class="form-control text-center" id="rol" name="rol" [(ngModel)]="usuario.rol">
+              </div>
+        </div>
+
+          <button type="submit" class="btn btn-primary">Agregar usuario</button>
+      </form>
+    </div>
+
+      <hr class="row mt-4">
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Rol</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of usuarios">
+                <td>{{ usuario.id}}</td>
+                <td><input type="text" class="form-control text-center" [(ngModel)]="usuario.nombre" /></td>
+                <td><input type="text" class="form-control text-center" [(ngModel)]="usuario.email" /></td>
+                <td><input type="text" class="form-control text-center" [(ngModel)]="usuario.rol" /></td>
+
+                <td>
+                  <!-- <button class="btn btn-warning mr-2" (click)="updateEquipo(equipo)">Actualizar</button>
+                  <button class="btn btn-danger mr-2" (click)="deleteEquipo(equipo)">Eliminar</button>
+                  <button class="btn btn-danger mr-2" (click)="deleteEquipoJugadores(equipo)">Eliminar equipo y
+                    jugadores</button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
