@@ -1,12 +1,10 @@
-
-
 <div class="container mt-4">
   <h1 class="text-center">SignalR Chat</h1>
   <hr />
-  <!-- <p *ngIf="connected" class="text-success text-center">Conectado como: {{ userData.nombre }} en la sala del {{ salaSeleccionada }}</p> -->
+  <p *ngIf="connected" class="text-success text-center">Conectado como: {{ userData.nombre }} en la sala del {{ salaSeleccionada }}</p>
 
   <p *ngIf="connected" class="text-success text-center">
-    Conectado como: {{ userData.nombre }} en la 
+    Conectado como: {{ userData.nombre }} en la
     <ng-container [ngSwitch]="salaSeleccionada">
       <ng-container *ngSwitchCase="'admin'">Sala conjunta</ng-container>
       <ng-container *ngSwitchCase="'Grupo 1'">Sala 1</ng-container>
@@ -20,163 +18,127 @@
   </p>
   <p *ngIf="!connected" class="text-danger text-center">Desconectado</p>
 
-  <img *ngIf="userData.avatar" [src]="userData.avatar" alt="Avatar del usuario" style="width: 100px; height: 100px; border-radius: 50%;">
+  <img
+    *ngIf="userData.avatar"
+    [src]="userData.avatar"
+    alt="Avatar del usuario"
+    style="width: 100px; height: 100px; border-radius: 50%"
+  />
 
   <hr />
   <div class="row mb-3">
+    <div class="col">
+      <label class="col-2">
+        <select
+          class="col-4 form-control text-center"
+          id="sala"
+          [(ngModel)]="salaSeleccionada"
+          *ngFor="let room of rooms"
+        >
+          <!-- <option
+            [value]="room.value"
+            *ngIf="user.role === roles.Admin || roleToRoom() === room.value"
+          >
+            {{ room.display }}
+          </option> -->
+          <option *ngIf="'Grupo 1'=== userData.rol || userData.rol === 'admin'" value="Grupo 1">Sala 1</option>
+              <option *ngIf="'Grupo 2'=== userData.rol || userData.rol ==='admin'" value="Grupo 2">Sala 2</option>
+              <option *ngIf="'Grupo 3'=== userData.rol || userData.rol ==='admin'" value="Grupo 3">Sala 3</option>
+              <option *ngIf="'Grupo 4'=== userData.rol || userData.rol ==='admin'" value="Grupo 4">Sala 4</option>
+              <option *ngIf="'Grupo 5'=== userData.rol || userData.rol ==='admin'" value="Grupo 5">Sala 5</option>
+              <option *ngIf="'Grupo 6'=== userData.rol || userData.rol ==='admin'" value="Grupo 6">Sala 6</option>
+        </select>
+      </label>
+
       <div class="col">
-          <label class="col-2"></label>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="moverSala('admin')"
+        >
+          Ir a Sala Conjunta
+        </button>
+        <!-- </a> -->
+        <button type="button" class="btn btn-primary" (click)="moverSala2()">
+          Volver a tu sala
+        </button>
 
-            <select class="col-4 form-control text-center" id="sala" [(ngModel)]="salaSeleccionada">
-              <option value="admin">Sala conjunta</option>
-              <option *ngIf="'Grupo 1'== userData.rol || userData.rol == 'admin'" value="Grupo 1">Sala 1</option>
-              <option *ngIf="'Grupo 2'== userData.rol || userData.rol == 'admin'" value="Grupo 2">Sala 2</option>
-              <option *ngIf="'Grupo 3'== userData.rol || userData.rol == 'admin'" value="Grupo 3">Sala 3</option>
-              <option *ngIf="'Grupo 4'== userData.rol || userData.rol == 'admin'" value="Grupo 4">Sala 4</option>
-              <option *ngIf="'Grupo 5'== userData.rol || userData.rol == 'admin'" value="Grupo 5">Sala 5</option>
-              <option *ngIf="'Grupo 6'== userData.rol || userData.rol == 'admin'" value="Grupo 6">Sala 6</option>
-
+        <button type="button" class="btn btn-info ml-2" (click)="logout()">
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+    <p></p>
+    <div class="row mb-3">
+      <div class="col">
+        <div>
+          <div class="form-group text-center">
+            <select
+              class="form-control text-center"
+              name="avatarSelect"
+              id="avatarSelect"
+              [(ngModel)]="avatarUrl"
+              (ngModelChange)="guardarAvatar()"
+            >
+              <option disabled value="">Seleccione un avatar</option>
+              <option
+                value="https://th.bing.com/th/id/OIP.GDrpKBRZ5rmABPxEhhjRiwHaHa?rs=1&pid=ImgDetMain"
+              >
+                Avatar 1
+              </option>
+              <option
+                value="https://cdn.icon-icons.com/icons2/1576/PNG/512/3561839-emoji-emoticon-silly_107878.png"
+              >
+                Avatar 2
+              </option>
+              <option
+                value="https://i.pinimg.com/originals/25/12/d9/2512d939bb5e79fece891f1846c03b04.jpg"
+              >
+                Avatar 3
+              </option>
+              <option
+                value="https://i.pinimg.com/736x/90/05/80/900580e1df8f3a9858736f21dde029fd.jpg"
+              >
+                Avatar 4
+              </option>
             </select>
-
-<!-- botones -->
-<!-- <div class="radio-input">
-  <div class="glass">
-    <div class="glass-inner">
-    </div>
-  </div>
-  <div class="selector">
-
-    <div class="choice">
-      <div>
-        <input type="radio" id="salaConjunta" name="number-selector" value="admin" [(ngModel)]="userData.rol" class="choice-circle">
-        <div class="ball"></div>
-      </div>
-      <label class="choice-name" for="salaConjunta">Sala conjunta</label>
-    </div>
-
-    <div class="choice">
-      <div>
-        <input type="radio" id="sala1" name="number-selector" value="Grupo 1" [(ngModel)]="userData.rol" class="choice-circle">
-        <div class="ball"></div>
-      </div>
-      <label class="choice-name" for="sala1">Sala 1</label>
-    </div>
-    <div class="choice">
-      <div>
-        <input type="radio" id="sala2" name="number-selector" value="Grupo 2" [(ngModel)]="userData.rol" class="choice-circle">
-        <div class="ball"></div>
-      </div>
-      <label class="choice-name" for="sala2">Sala 2</label>
-    </div>
-
-</div> -->
-<p></p>
-<!-- botones hasta aqui -->
-      <div class="col">
-        <!-- <a href="http://localhost:4200/chat" target="_blank"> -->
-        <button type="button" class="btn btn-primary" (click)="moverSala('admin')">Ir a Sala Conjunta</button>
-      <!-- </a> -->
-        <button type="button" class="btn btn-primary" (click)="moverSala2()">Volver a tu sala</button>
-
-          <button type="button" class="btn btn-info ml-2" (click)="logout()">Cerrar sesión</button>
-      </div>
-  </div>
-<p></p>
-  <div class="row mb-3">
-      <div class="col">
-      <!-- <label class="col-2">Avatar</label>
-          <input class="col-2 form-control" type="text" id="txtAvatar" /> -->
-
-
-          <div>
-            <!-- <label for="avatarInput">Selecciona un avatar: </label> -->
-
-            <div class="form-group text-center">
-              <select class="form-control text-center" name="avatarSelect" id="avatarSelect" [(ngModel)]="avatarUrl" (ngModelChange)="guardarAvatar()">
-                <option disabled  value="">Seleccione un avatar</option>
-                <option value="https://th.bing.com/th/id/OIP.GDrpKBRZ5rmABPxEhhjRiwHaHa?rs=1&pid=ImgDetMain">
-                  Avatar 1
-                </option>
-                <option value="https://cdn.icon-icons.com/icons2/1576/PNG/512/3561839-emoji-emoticon-silly_107878.png">
-                  Avatar 2
-                </option>
-                <option value="https://i.pinimg.com/originals/25/12/d9/2512d939bb5e79fece891f1846c03b04.jpg">
-                  Avatar 3
-                </option>
-                <option value="https://i.pinimg.com/736x/90/05/80/900580e1df8f3a9858736f21dde029fd.jpg">
-                  Avatar 4
-                </option>
-                <option value="https://cdn.discordapp.com/attachments/1115721246106198098/1197300634047754260/64df0896-bafd-4df8-9128-5c1c288fc602.jpg?ex=65bac41b&is=65a84f1b&hm=a3b4f357f7d9cbd254d8a1f51726b75cd3be7e7c34de721d7b54993364903e1a&">
-                  Avatar 5
-                </option>
-              </select>
-            </div>
-                       
-            <!-- <button (click)="guardarAvatar()">Guardar Avatar</button> -->
           </div>
-
-          <p></p>
-
-          <app-message-input (sendMessageEvent)="sendMessage($event)"></app-message-input>
+        </div>
+        <app-message-input
+          (sendMessageEvent)="sendMessage($event)"
+        ></app-message-input>
       </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <ul *ngIf="connected" class="list-group mt-3">
+          <li class="list-group-item" *ngFor="let mensaje of mensajes">
+            <img
+              *ngIf="userData.avatar"
+              [src]="userData.avatar"
+              alt="Avatar del usuario"
+              style="width: 45px; height: 45px; border-radius: 50%"
+            />
+            {{ mensaje.usuario }} {{ mensaje.mensaje }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <h2>Todos</h2>
+        <ul>
+          <li *ngFor="let usuario of usuarios">
+            <ng-container>
+              {{ usuario.nombre }} - {{ usuario.email }}
+            </ng-container>
+          </li>
+        </ul>
+      </div>
+      <div class="col">
+        <h2>Sala</h2>
+        <ul id="usuariosEnSala" class="list-group"></ul>
+      </div>
+    </div>
   </div>
-
-  <!-- <div class="row mb-3">
-      <div class="col">
-          <label class="col-2">Mensaje</label>
-         <textarea class="form-control" [(ngModel)]="mensajeNuevo" placeholder="Escribe tu mensaje"></textarea>
-
-      </div>
-      <div class="col">
-          <button class="btn btn-success" (click)="sendMessage()">Enviar mensaje</button>
-      </div>
-  </div> -->
-
-
-  <!-- <div class="row">
-      <div class="col-12">
-          <hr />
-      </div>
-  </div>  -->
-
-
-  <div class="row">
-      <div class="col">
-          <!-- <ul id="lstMensajes" class="list-group">
-          </ul> -->
-          <!-- <p *ngIf="connected" class="text-success text-center"> -->
-
-          <ul *ngIf="connected" class="list-group mt-3">
-            <li class="list-group-item" *ngFor="let mensaje of mensajes">
-              
-              <img *ngIf="userData.avatar" [src]="userData.avatar" alt="Avatar del usuario" style="width: 45px; height: 45px;  border-radius: 50%;">
-
-              {{ mensaje.usuario }} {{ mensaje.mensaje }} 
-            </li>
-          </ul>
-          
-      </div>
-
-      <div class="col">
-          <h2>Todos</h2>
-          <!-- <ul id="usuariosTotales" class="list-group">
-          </ul> -->
-
-<ul>
-  <li *ngFor="let usuario of usuarios">
-    <ng-container >
-      {{ usuario.nombre }} - {{ usuario.email }}
-    </ng-container>
-  </li>
-</ul>
-
-
-      </div>
-      <div class="col">
-          <h2>Sala</h2>
-          <ul id="usuariosEnSala" class="list-group">
-          </ul>
-      </div>
-
-
 </div>

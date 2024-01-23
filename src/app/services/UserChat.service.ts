@@ -1,4 +1,3 @@
-// user-chat.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from '../interfaces/user.interface';
@@ -16,6 +15,4 @@ export class UserChatService {
     this.usuariosConectadosSubject.next(usuarios);
     console.log('Usuarios actualizados en el servicio:', usuarios);
   }
-
-
 }

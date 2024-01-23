@@ -1,28 +1,21 @@
-export interface IUsuarioChat {
+import { RolesEnum, RoomsEnum } from "./enums/chat";
+
+export declare interface IUsuarioChat {
   id: Guid;
   email: Email;
-  nombre: string;
-  rol: RolesEnum;
+  name: string;
+  role: RolesEnum;
   avatar: string | null;
 }
 
-export interface IMensajeChat {
-    id: Guid;
-    user: IUsuarioChat;
-    text: string;
-    room: string;
-    fecha: Date;
+export declare interface IMensajeChat {
+  id?: Guid;
+  user: IUsuarioChat;
+  text: string;
+  room: RoomsEnum;
+  timestamp: Date | number; // UNIX
+  file: File | null;
 }
 
-export declare enum RolesEnum {
-  Admin,
-  Grupo1,
-  Grupo2,
-  Grupo3,
-  Grupo4,
-  Grupo5,
-  Grupo6,
-}
-
-type Guid = `${string}-${string}-${string}-${string}-${string}`;
-type Email = `${string}@${string}.${string}`;
+declare type Guid = `${string}-${string}-${string}-${string}-${string}`;
+declare type Email = `${string}@${string}.${string}`;

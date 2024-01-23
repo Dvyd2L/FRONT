@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../services/login.service';
+import { RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { LoginService } from '../../services/login.service';
+import { StorageHelper } from 'src/app/helpers/storage.helper';
 
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css'],
+    standalone: true,
+    imports: [NgIf, RouterLink],
+    providers: [LoginService],
 })
 export class NavbarComponent implements OnInit {
   userEmail: string | null = null;
@@ -26,6 +32,6 @@ export class NavbarComponent implements OnInit {
     this.loginService.logout();
     this.userEmail = null;
     this.userRol = null;
-    localStorage.removeItem('usuario');
+    StorageHelper.removeItem('usuario');
   }
 }

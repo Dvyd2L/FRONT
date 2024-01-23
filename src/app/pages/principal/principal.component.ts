@@ -1,43 +1,18 @@
-// principal.component.ts
-
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user.interface';
-import { StorageHelper } from 'src/app/services/localstorage.service';
-import { LoginService } from 'src/app/services/login.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css']
+  styleUrls: ['./principal.component.css'],
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
 })
 export class PrincipalComponent {
-  navigateTo(sectionId: string): void {
-    window.location.href = sectionId;
-  }
-
+  private usuariosService = inject(UsuariosService);
   usuarios: IUser[] = [];
-
-  // userData: IUser = {
-  //   email:"",
-  //   password:"",
-  //   nombre:"",
-  //   rol:"",
-  // };
-
-  // salaSeleccionada: string = ''; 
-
-  constructor(private usuariosService: UsuariosService, private loginService: LoginService, private router: Router) 
-  {
-    // this.userData = StorageHelper.getItem<IUser>('usuario')!;
-    // this.salaSeleccionada = this.userData.rol!;
-  }
-
-
-  // ngOnInit(): void {
-  //   this.getUsuarios();
-  // }
 
   getUsuarios() {
     this.usuariosService.getUsuarios().subscribe({
@@ -45,26 +20,28 @@ export class PrincipalComponent {
         this.usuarios = data;
       },
       error: (err) => {
+        console.error(err);
         alert('Error en el acceso a datos');
-      }
+      },
     });
   }
 
+  // navigateTo(sectionId: string): void {
+  //   window.location.href = sectionId;
+  // }
+  // registrar() {
+  //   this.router.navigateByUrl('registro');
+  // }
 
-  
-  registrar() {
-    this.router.navigateByUrl('registro');
-  }
+  // login(): void {
+  //   this.router.navigate(['/login']);
+  // }
 
-  login(): void {
-    this.router.navigate(['/login']);
-  }
+  // registrar2(): void {
+  //   this.router.navigate(['/registro']);
+  // }
 
-  registrar2(): void {
-    this.router.navigate(['/registro']);
-  }
-
-  historial(): void {
-    this.router.navigate(['/historial']);
-  }
+  // historial(): void {
+  //   this.router.navigate(['/historial']);
+  // }
 }

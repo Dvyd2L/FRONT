@@ -1,84 +1,81 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { IHistorial } from 'src/app/interfaces/historial.interface';
 
 import { HistorialService } from 'src/app/services/Historial.service';
-
+import { CardModule } from 'primeng/card';
+import { NgFor, DatePipe } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
-  styleUrls: ['./historial.component.css']
+  styleUrls: ['./historial.component.css'],
+  standalone: true,
+  imports: [
+    DropdownModule,
+    FormsModule,
+    ButtonModule,
+    NgFor,
+    CardModule,
+    DatePipe,
+  ],
 })
 export class HistorialComponent implements OnInit {
+  private historialService = inject(HistorialService);
+  private router = inject(Router);
+  private _isLoading = signal<boolean>(false);
   historial: IHistorial[] = [];
   salas: string[] = [];
   salaSeleccionada = '';
 
-  constructor(private historialService: HistorialService, private router: Router) { }
+  get isLoading() {
+    return this._isLoading();
+  }
+
+  set isLoading(value: boolean) {
+    this._isLoading.update(() => value);
+  }
 
   ngOnInit(): void {
-   
     this.getSalasDisponibles();
   }
 
-  // getHistorialChat(): void {
-  //   this.historialService.getHistorialChat(this.salaSeleccionada).subscribe(
-  //     historial => {
-  //       this.historial = historial;
-  //     },
-  //     error => {
-  //       console.error('Error al obtener el historial del chat:', error);
-  //     }
-  //   );
-  // }
-
-
   getHistorialChat(): void {
+    this.isLoading = true;
+
     if (!this.salaSeleccionada) {
-      console.error('Seleccione una sala antes de obtener el historial del chat.');
+      console.error(
+        'Seleccione una sala antes de obtener el historial del chat.'
+      );
       return;
     }
 
-  
-    this.historialService.getHistorialChat(this.salaSeleccionada).subscribe(
-      historial => {
-        this.historial = historial;
-        console.log(historial)
+    this.historialService.getHistorialChat(this.salaSeleccionada).subscribe({
+      next: (data) => {
+        console.log(data);
+
+        this.historial = data;
       },
-      error => {
-        console.error('Error al obtener el historial del chat:', error);
-      }
-    );
+      error: (err) => {
+        console.error('Error al obtener el historial del chat:', err);
+      },
+      complete: () => this.isLoading = false,
+    });
   }
 
-
-  // getHistorialCha2(): void {
-  //   if (!this.salaSeleccionada) {      
-  //     return;
-  //   }
-  
-  //   this.historialService.getHistorialChat(this.salaSeleccionada).subscribe(
-  //     historial => {
-  //       this.historial = historial;
-  //     },
-  //     error => {
-  //       console.error('Error al obtener el historial del chat:', error);
-  //     }
-  //   );
-  // }
-  
-
   getSalasDisponibles(): void {
-    this.historialService.getSalasDisponibles().subscribe(
-      salas => {
-        this.salas = salas;
-   
+    this.historialService.getSalasDisponibles().subscribe({
+      next: (data) => {
+        this.salas = data;
       },
-      error => {
-        console.error('Error al obtener la lista de salas:', error);
-      }
-    );
+      error: (err) => {
+        console.error('Error al obtener la lista de salas:', err);
+      },
+      complete: () => this.isLoading = false,
+    });
   }
 
   onChangeRoom(): void {
