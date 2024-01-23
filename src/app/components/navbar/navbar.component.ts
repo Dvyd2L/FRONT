@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { LoginService } from '../../services/auth.service';
-import { StorageHelper } from 'src/app/helpers/storage.helper';
+import { AuthService } from '../../services/auth.service';
+import { UserService } from 'src/app/services/user.service';
+import { IUsuarioChat } from 'src/app/interfaces/chat';
 
 
 @Component({
@@ -11,27 +12,21 @@ import { StorageHelper } from 'src/app/helpers/storage.helper';
   styleUrls: ['./navbar.component.css'],
   standalone: true,
   imports: [NgIf, RouterLink],
-  providers: [LoginService],
+  providers: [AuthService, UserService<IUsuarioChat>],
 })
 export class NavbarComponent implements OnInit {
-  userEmail: string | null = null;
-  userRol: string | null = null;
-
-  constructor(private loginService: LoginService) { }
+  private authService = inject(AuthService); 
+  private userService = inject(UserService<IUsuarioChat>);
+  public user!:IUsuarioChat;
 
   ngOnInit(): void {
-    // Suscríbete a cambios en el evento de inicio de sesión exitoso
-    this.loginService.onLoginSuccess.subscribe(() => {
-      // Actualiza el email en la barra de navegación después de iniciar sesión
-      this.userEmail = this.loginService.getUserEmail();
-      this.userRol = this.loginService.getUserRole();
+    this.userService.user$.subscribe({
+      next: (data) => this.user = data,
+      error: (err) => console.error(err),
     });
   }
 
   logout(): void {
-    this.loginService.logout();
-    this.userEmail = null;
-    this.userRol = null;
-    StorageHelper.removeItem('usuario');
+    this.authService.logout();
   }
 }
