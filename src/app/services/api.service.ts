@@ -12,7 +12,7 @@ import { EndpointEnum, StorageKeyEnum } from '../interfaces/enums/chat';
 })
 export class ApiService {
   private http = inject(HttpClient);
-  urlAPI = environment.urlAPI;
+  private urlAPI = environment.urlAPI;
 
   public get<T>(endpoint: EndpointEnum): Observable<T> {
     const headers = this.getTokenHeader();

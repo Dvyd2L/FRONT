@@ -13,12 +13,14 @@ import { UserService } from './user.service';
 })
 export class SignalRService {
   private userService = inject(UserService<IUsuarioChat>);
-  urlSignalR = environment.urlAPI + 'ChatHub';
-  hubConnection!: signalR.HubConnection;
+  private urlSignalR = environment.urlAPI + 'ChatHub';
+  private hubConnection!: signalR.HubConnection;
+
   private messageSubject = new BehaviorSubject<IMensajeChat>(null!);
-  message$ = this.messageSubject.asObservable();
+  public message$ = this.messageSubject.asObservable();
+  
   private connectedSubject = new BehaviorSubject<boolean>(false);
-  connected$ = this.connectedSubject.asObservable();
+  public connected$ = this.connectedSubject.asObservable();
 
   connect() {
     if (!this.hubConnection) {

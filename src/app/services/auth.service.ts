@@ -17,7 +17,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private userService = inject(UserService<IUsuarioChat>);
   private signalrService = inject(SignalRService);
-  public urlAPI = environment.urlAPI;
+  private urlAPI = environment.urlAPI;
 
   public register(registerData: any) {
     return this.http.post(this.urlAPI + '/Usuario/register', registerData);
