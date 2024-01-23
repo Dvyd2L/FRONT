@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { StorageHelper } from '../helpers/storage.helper';
 import { Injectable, inject } from '@angular/core';
 import { IUsuarioChat, IMensajeChat } from '../interfaces/chat';
-import { ChatEventEnum, RoomsEnum } from '../interfaces/enums/chat';
+import { ChatEventEnum, RoomsEnum, StorageKeyEnum } from '../interfaces/enums/chat';
 import { BehaviorSubject } from 'rxjs';
 import { UserService } from './user.service';
 
@@ -53,7 +53,7 @@ export class SignalRService {
   }
 
   connectUser() {
-    const user: IUsuarioChat | null = StorageHelper.getItem<IUsuarioChat>('usuario');
+    const user: IUsuarioChat | null = StorageHelper.getItem<IUsuarioChat>(StorageKeyEnum.User);
 
     if (user) {
       const message: IMensajeChat = {
