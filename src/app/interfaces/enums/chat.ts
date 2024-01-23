@@ -1,11 +1,5 @@
 export enum RolesEnum {
   Admin,
-  Grupo1,
-  Grupo2,
-  Grupo3,
-  Grupo4,
-  Grupo5,
-  Grupo6,
   User,
 }
 
@@ -17,4 +11,20 @@ export enum RoomsEnum {
   Sala4,
   Sala5,
   Sala6,
+}
+
+export enum ChatEventEnum {
+  GetMessage = 'GetMessage',
+  SendMessage = 'SendMessage',
+  ConnectUser = 'ConnectUser',
+}
+
+export enum StorageKeyEnum {
+  User = 'usuario',
+  Token = 'token',
+  Room = 'sala',
+  Role = 'rol',
+  Message = 'mensaje',
+  ConnectdUsers = 'connectdUsers',
+  MessageList = 'listaMensajes',
 }

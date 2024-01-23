@@ -1,27 +1,24 @@
 // signalr.service.ts
 import * as signalR from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
-import { Subject } from 'rxjs';
-import { IMessage } from '../interfaces/message.interface';
 import { StorageHelper } from '../helpers/storage.helper';
-import { HttpClient} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IUsuarioChat, IMensajeChat } from '../interfaces/chat';
-import { RoomsEnum } from '../interfaces/enums/chat';
+import { ChatEventEnum, RoomsEnum } from '../interfaces/enums/chat';
+import { BehaviorSubject } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignalRService {
-  private http = inject(HttpClient);
+  private userService = inject(UserService<IUsuarioChat>);
   urlSignalR = environment.urlAPI + 'ChatHub';
   hubConnection!: signalR.HubConnection;
-  messageSubscription: Subject<IMensajeChat> = new Subject<IMensajeChat>();
-  connected = false;
-
-  constructor() {
-    this.connect();
-  }
+  private messageSubject = new BehaviorSubject<IMensajeChat>(null!);
+  message$ = this.messageSubject.asObservable();
+  private connectedSubject = new BehaviorSubject<boolean>(false);
+  connected$ = this.connectedSubject.asObservable();
 
   connect() {
     if (!this.hubConnection) {
@@ -35,11 +32,11 @@ export class SignalRService {
       this.hubConnection
         .start()
         .then(() => {
-          console.log('Conexión iniciada');
-          this.connected = true;
-          this.listenMessages();
+          console.log({msg:'Conexión iniciada'});
+          this.connectedSubject.next(true);
+          this.getMessage();
         })
-        .catch((err) => console.error('Error al iniciar la conexión: ' + err));
+        .catch((err) => console.error({msg: 'Error al iniciar la conexión', err}));
     }
   }
 
@@ -48,10 +45,10 @@ export class SignalRService {
       this.hubConnection
         .stop()
         .then(() => {
-          this.connected = false;
-          console.log('Conexión cerrada');
+          this.connectedSubject.next(false);
+          console.log({msg: 'Conexión cerrada'});
         })
-        .catch((err) => console.error('Error al cerrar la conexión: ', err));
+        .catch((err) => console.error({msg: 'Error al cerrar la conexión', err}));
     }
   }
 
@@ -63,29 +60,28 @@ export class SignalRService {
         // id: userData.id,
         user,
         text: '',
-        room: /* user.role ||  */RoomsEnum.Conjunta,
         file: null,
-        timestamp: new Date().valueOf(), // UNIX
+        timestamp: Date.now(), // UNIX
       };
-      this.hubConnection.send('ConnectUser', message);
+      this.hubConnection.send(ChatEventEnum.ConnectUser, message);
     }
   }
 
   listenConnectionClosed() {
-    this.hubConnection.onclose((error) => {
-      console.error('Conexión cerrada:', error);
-    });
+    this.hubConnection.onclose((err) =>
+      console.error({msg: 'Conexión cerrada', err})
+    )
   }
 
-  listenMessages() {
-    this.hubConnection.on('GetMessage', (message: IMensajeChat) => {
-      this.messageSubscription.next(message);
+  getMessage() {
+    this.hubConnection.on(ChatEventEnum.GetMessage, (message: IMensajeChat) => {
+      this.messageSubject.next(message);
     });
   }
 
   sendMessage(message: IMensajeChat) {
-    this.hubConnection.send('SendMessage', message);
-    // this.messageSubscription.next(message);
-    console.log('sendMessage del signalrservice', message);
+    this.hubConnection.send(ChatEventEnum.SendMessage, message);
+    this.messageSubject.next(message);
+    console.log({msg:'Mensaje enviado', message});
   }
 }

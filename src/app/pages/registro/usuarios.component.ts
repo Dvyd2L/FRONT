@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user.interface';
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/services/auth.service';
 import { UserChatService } from 'src/app/services/UserChat.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { NgFor } from '@angular/common';
@@ -19,7 +19,7 @@ export class UsuariosComponent implements OnInit {
   private loginService = inject(LoginService);
   private userChatService = inject(UserChatService);
   private router = inject(Router);
-  
+
   usuario: IUser = {
     nombre: '',
     email: '',

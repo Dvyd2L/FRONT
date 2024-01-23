@@ -5,7 +5,7 @@ import { IMessage } from 'src/app/interfaces/message.interface';
 import { IUser } from 'src/app/interfaces/user.interface';
 import { UserChatService } from 'src/app/services/UserChat.service';
 import { StorageHelper } from 'src/app/helpers/storage.helper';
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/services/auth.service';
 import { SignalRService } from 'src/app/services/signalr.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { __values } from 'tslib';
@@ -61,25 +61,6 @@ export class ChatComponent implements OnInit, AfterContentInit {
     { display: 'Sala 6', value: RoomsEnum.Sala6 },
   ];
   user!: IUsuarioChat;
-  roleToRoom() {
-    switch (this.user.role) {
-      case RolesEnum.Grupo1:
-        return RoomsEnum.Sala1;
-      case RolesEnum.Grupo2:
-        return RoomsEnum.Sala2;
-      case RolesEnum.Grupo3:
-        return RoomsEnum.Sala3;
-      case RolesEnum.Grupo4:
-        return RoomsEnum.Sala4;
-      case RolesEnum.Grupo5:
-        return RoomsEnum.Sala5;
-      case RolesEnum.Grupo6:
-        return RoomsEnum.Sala6;
-
-      default:
-        return RoomsEnum.Conjunta;
-    }
-  }
   // Define una propiedad para almacenar la lista de usuarios conectados
   usuariosConectados: any[] = [];
 
@@ -97,7 +78,7 @@ export class ChatComponent implements OnInit, AfterContentInit {
   usuarioNuevo: string = '';
   // conectado: boolean = false;
   // salaSeleccionada: string = 'Conjunta';
-  salaSeleccionada: RoomsEnum;
+  salaSeleccionada!: RoomsEnum;
 
   // Variable para almacenar la URL del avatar ingresada por el usuario
   // avatarUrl: string = '';
@@ -159,7 +140,6 @@ export class ChatComponent implements OnInit, AfterContentInit {
       const message: IMensajeChat = {
         user: this.user,
         text,
-        room: this.salaSeleccionada,
         file,
         timestamp: Date.now(),
       };
@@ -183,19 +163,7 @@ export class ChatComponent implements OnInit, AfterContentInit {
         const mensaje = message.text;
 
         console.log('Nuevo mensaje GET chat component:', message);
-        if (usuario === 'Sistema' || usuario === 'Host') {
-          alert(message.text);
-        }
-        // Verifica si el mensaje pertenece a la sala seleccionada
-        if (message.room === this.salaSeleccionada) {
-          // if (message.room === this.userData.rol) {
-          // if (usuario === 'Sistema'|| usuario === 'Host') {
-          //   alert(message.text);
-          // }
-          this.mensajes.push({ usuario, mensaje });
 
-          console.log('Mensajes actuales:', this.mensajes);
-        }
       },
       error: (err: any) => {
         console.error('Error en chat.component.ts:', err);
@@ -211,14 +179,9 @@ export class ChatComponent implements OnInit, AfterContentInit {
     this.router.navigateByUrl('/login');
   }
 
-  moverSala(sala: string): void {
+  moverSala(sala: RoomsEnum): void {
     // this.userData.rol = sala;
     this.salaSeleccionada = sala;
-  }
-
-  moverSala2(): void {
-    // this.userData = StorageHelper.getItem<IUser>('usuario')!;
-    this.salaSeleccionada = StorageHelper.getItem<IUser>('usuario')?.rol!;
   }
 
   guardarAvatar(): void {

@@ -6,14 +6,14 @@ export declare interface IUsuarioChat {
   name: string;
   role: RolesEnum;
   avatar: string | null;
+  room: RoomsEnum;
 }
 
 export declare interface IMensajeChat {
   id?: Guid;
   user: IUsuarioChat;
   text: string;
-  room: RoomsEnum;
-  timestamp: Date | number; // UNIX
+  timestamp: number; // UNIX
   file: File | null;
 }
 

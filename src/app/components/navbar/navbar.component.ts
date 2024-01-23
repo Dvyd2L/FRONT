@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { LoginService } from '../../services/login.service';
+import { LoginService } from '../../services/auth.service';
 import { StorageHelper } from 'src/app/helpers/storage.helper';
 
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css'],
-    standalone: true,
-    imports: [NgIf, RouterLink],
-    providers: [LoginService],
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'],
+  standalone: true,
+  imports: [NgIf, RouterLink],
+  providers: [LoginService],
 })
 export class NavbarComponent implements OnInit {
   userEmail: string | null = null;
   userRol: string | null = null;
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
     // Suscríbete a cambios en el evento de inicio de sesión exitoso
