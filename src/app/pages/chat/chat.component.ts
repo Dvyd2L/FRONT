@@ -7,7 +7,7 @@ import { UserChatService } from 'src/app/services/UserChat.service';
 import { StorageHelper } from 'src/app/helpers/storage.helper';
 import { LoginService } from 'src/app/services/auth.service';
 import { SignalRService } from 'src/app/services/signalr.service';
-import { UsuariosService } from 'src/app/services/usuarios.service';
+import { UsuariosService } from 'src/app/services/api.service';
 import { __values } from 'tslib';
 import { IMensajeChat, IUsuarioChat } from 'src/app/interfaces/chat';
 import { RolesEnum, RoomsEnum } from 'src/app/interfaces/enums/chat';

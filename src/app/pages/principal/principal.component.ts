@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user.interface';
-import { UsuariosService } from 'src/app/services/usuarios.service';
+import { UsuariosService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-principal',

@@ -28,3 +28,9 @@ export enum StorageKeyEnum {
   ConnectdUsers = 'connectdUsers',
   MessageList = 'listaMensajes',
 }
+
+export enum EndpointEnum {
+  Users = 'Usuarios',
+  Messages = 'Mensajes',
+  /* ... */
+}

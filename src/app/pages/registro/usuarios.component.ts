@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user.interface';
 import { LoginService } from 'src/app/services/auth.service';
 import { UserChatService } from 'src/app/services/UserChat.service';
-import { UsuariosService } from 'src/app/services/usuarios.service';
+import { UsuariosService } from 'src/app/services/api.service';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 @Component({
