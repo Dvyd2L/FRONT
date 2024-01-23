@@ -11,7 +11,7 @@ export class UserService<T> {
   public user$ = this.currentUserSubject.asObservable();
 
   public updateUser(user: T) {
-    StorageHelper.setItem(StorageKeyEnum.User,user);
+    StorageHelper.setItem(StorageKeyEnum.User, user);
     this.currentUserSubject.next(user);
   }
 
