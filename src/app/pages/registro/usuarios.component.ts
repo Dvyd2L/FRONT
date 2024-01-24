@@ -1,106 +1,93 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user.interface';
-import { LoginService } from 'src/app/services/auth.service';
-import { UserChatService } from 'src/app/services/UserChat.service';
-import { UsuariosService } from 'src/app/services/api.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { ApiService } from 'src/app/services/api.service';
+import {
+  ApiEndpointEnum,
+  RolesEnum,
+  RoomsEnum,
+} from 'src/app/interfaces/enums/chat';
+import { Email, Guid, IUsuarioChat } from 'src/app/interfaces/chat';
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
   standalone: true,
   imports: [FormsModule, NgFor],
-  providers: [UsuariosService, UserChatService, LoginService, Router],
+  providers: [UserService, AuthService, Router],
 })
 export class UsuariosComponent implements OnInit {
-  private usuariosService = inject(UsuariosService);
-  private loginService = inject(LoginService);
-  private userChatService = inject(UserChatService);
+  private userService = inject(UserService);
+  private auth = inject(AuthService);
+  private api = inject(ApiService);
   private router = inject(Router);
 
-  usuario: IUser = {
-    nombre: '',
-    email: '',
-    password: '',
-    rol: '',
-    id: 0,
+  public usuario: IUsuarioChat = {
+    id: '' as Guid,
+    email: '' as Email,
+    name: '',
+    role: RolesEnum.User,
+    avatar: null,
+    room: RoomsEnum.Conjunta,
   };
-  usuarios: IUser[] = [];
+  public usuarios: IUsuarioChat[] = [];
 
   ngOnInit(): void {
     this.getUsuarios();
   }
 
-  getUsuarios() {
-    this.usuariosService.getUsuarios().subscribe({
-      next: (data) => {
-        this.usuarios = data;
-
-        // Agrega un console.log para verificar que la lista de usuarios se obtuvo correctamente
-        console.log('Usuarios obtenidos en UsuariosComponent:', data);
-        // Actualiza la lista de usuarios conectados en el servicio
-        this.userChatService.actualizarUsuariosConectados(data);
-      },
-      error: (err) => {
-        alert('Error en el acceso a datos');
-      },
+  public getUsuarios() {
+    this.api.get<IUsuarioChat[]>(ApiEndpointEnum.Users).subscribe({
+      next: (data) => (this.usuarios = data),
+      error: (err) => console.error(err),
     });
   }
 
-  addUsuarios() {
-    this.usuariosService.addUsuarios(this.usuario).subscribe({
+  public addUsuarios() {
+    this.api.create(this.usuario, ApiEndpointEnum.Users).subscribe({
       next: (data) => {
-        console.log(data);
-        this.usuario.nombre = '';
-        this.usuario.email = '';
-        this.usuario.password = '';
-        this.usuario.rol = '';
-        alert('Alta realizada con éxito');
+        console.log({ msg: 'Usuario creado correctamente', data });
+        alert('Usuario creado correctamente');
+        this.usuario.id = '' as Guid;
+        this.usuario.email = '' as Email;
+        this.usuario.name = '';
+        this.usuario.role = RolesEnum.User;
+        this.usuario.avatar = null;
+        this.usuario.room = RoomsEnum.Conjunta;
       },
-      error: (err) => {
-        console.error(err);
-        alert(
-          'ERROR: El email ya está en uso, o el servidor ha dejado de responder'
-        );
-      },
-      complete: () => {
-        this.getUsuarios();
-      },
+      error: (err) => console.error(err),
+      complete: () => this.getUsuarios(),
     });
   }
 
-  updateUsuarios(usuario: IUser): void {
+  public updateUsuarios(usuario: IUser, id: number): void {
     const confirmacion = confirm(
       '¿Estás seguro de que deseas actualizar este usuario?'
     );
     if (confirmacion) {
-      this.usuariosService.updateUsuarios(usuario).subscribe({
-        next: () => {
-          alert('Usuario actualizado correctamente');
-        },
-        error: () => {
-          alert('Error al actualizar el usuario');
-        },
+      this.api.update(usuario, id, ApiEndpointEnum.Users).subscribe({
+        next: (data) => console.log('Usuario actualizado correctamente', data),
+        error: (err) =>
+          console.error({ msg: 'Error al actualizar el usuario', err }),
+        complete: () => this.getUsuarios(),
       });
     }
   }
 
-  deleteUsuarios(usuario: IUser): void {
+  public deleteUsuarios(id: number): void {
     const confirmacion = confirm(
       '¿Estás seguro de que deseas eliminar este usuario?'
     );
     if (confirmacion) {
-      this.usuariosService.deleteUsuarios(usuario).subscribe({
-        next: (response) => {
-          console.log('Usuario eliminado correctamente', response);
-          alert('Usuario eliminado correctamente');
-        },
-        error: (error) => {
-          console.error('Error al eliminar el usuario', error);
-          alert('Error al eliminar el usuario');
-        },
+      this.api.delete(id, ApiEndpointEnum.Users).subscribe({
+        next: (data) =>
+          console.log({ msg: 'Usuario eliminado correctamente', data }),
+        error: (err) =>
+          console.error({ msg: 'Error al eliminar el usuario', err }),
         complete: () => {
           this.getUsuarios();
         },
@@ -108,12 +95,12 @@ export class UsuariosComponent implements OnInit {
     }
   }
 
-  logout() {
-    this.loginService.logout();
+  public logout() {
+    this.auth.logout();
     this.router.navigateByUrl('/login');
   }
 
-  chat() {
+  public chat() {
     this.router.navigateByUrl('/chat');
   }
 }

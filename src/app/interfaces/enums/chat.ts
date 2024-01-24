@@ -29,7 +29,7 @@ export enum StorageKeyEnum {
   MessageList = 'listaMensajes',
 }
 
-export enum EndpointEnum {
+export enum ApiEndpointEnum {
   Users = 'Usuarios',
   Messages = 'Mensajes',
   /* ... */
