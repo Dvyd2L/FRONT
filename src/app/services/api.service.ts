@@ -1,10 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { ITokenInfo } from '../interfaces/user.interface';
-import { StorageHelper } from '../helpers/storage.helper';
-import { ApiEndpointEnum, StorageKeyEnum } from '../interfaces/enums/chat';
+import { ApiEndpointEnum } from '../interfaces/enums/chat';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +12,7 @@ export class ApiService {
   private urlAPI = environment.urlAPI + 'api';
 
   public get<T>(endpoint: ApiEndpointEnum): Observable<T> {
-    const headers = this.getTokenHeader();
-    return this.http.get<T>(`${this.urlAPI}/${endpoint}`, { headers });
+    return this.http.get<T>(`${this.urlAPI}/${endpoint}`);
   }
 
   public getById<Tid, TResponse>(
@@ -37,28 +34,13 @@ export class ApiService {
     id: Tid,
     endpoint: ApiEndpointEnum
   ): Observable<TResponse> {
-    const headers = this.getTokenHeader();
-    return this.http.put<TResponse>(`${this.urlAPI}/${endpoint}/${id}`, data, {
-      headers,
-    });
+    return this.http.put<TResponse>(`${this.urlAPI}/${endpoint}/${id}`, data);
   }
 
   public delete<Tid, TResponse>(
     id: Tid,
     endpoint: ApiEndpointEnum
   ): Observable<TResponse> {
-    const headers = this.getTokenHeader();
-    return this.http.delete<TResponse>(`${this.urlAPI}/${endpoint}/${id}`, {
-      headers,
-    });
-  }
-
-  private getTokenHeader(): HttpHeaders {
-    const token = StorageHelper.getItem<ITokenInfo>(
-      StorageKeyEnum.Token
-    )?.token;
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-
-    return headers;
+    return this.http.delete<TResponse>(`${this.urlAPI}/${endpoint}/${id}`);
   }
 }

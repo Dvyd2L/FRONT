@@ -1,5 +1,3 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
 import { LOCALE_ID, importProvidersFrom } from '@angular/core';
 import { AppComponent } from './app/app.component';
 import { CardModule } from 'primeng/card';
@@ -11,18 +9,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   withInterceptorsFromDi,
   provideHttpClient,
+  withInterceptors,
 } from '@angular/common/http';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { UserChatService } from './app/services/UserChat.service';
 import { SignalRService } from './app/services/signalr.service';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/routes';
+import { authInterceptorFn } from './app/services/interceptors/token-fn.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptors([authInterceptorFn])),
     importProvidersFrom(
       BrowserModule,
       FormsModule,
@@ -33,7 +32,6 @@ bootstrapApplication(AppComponent, {
       CardModule
     ),
     SignalRService,
-    UserChatService,
     {
       provide: LOCALE_ID /** imported from @angular/core */,
       useValue: 'es-ES' /** default locale fixed to es-ES */,
