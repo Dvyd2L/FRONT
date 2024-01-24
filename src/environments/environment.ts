@@ -1,4 +1,3 @@
 export const environment = {
-    urlAPI: 'https://localhost:7217/'
-
-  };
+  urlAPI: 'https://localhost:7217/',
+};
