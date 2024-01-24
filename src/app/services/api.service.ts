@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { environment } from '../../environments/environment';
 import { ITokenInfo } from '../interfaces/user.interface';
 import { StorageHelper } from '../helpers/storage.helper';
